@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carp", "Carp\Carp.csproj", "{BE982535-1B82-4DD9-82D9-1064A7632F1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE982535-1B82-4DD9-82D9-1064A7632F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE982535-1B82-4DD9-82D9-1064A7632F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE982535-1B82-4DD9-82D9-1064A7632F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE982535-1B82-4DD9-82D9-1064A7632F1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {637499B4-F4CD-4A55-842D-44221ED467E5}
+	EndGlobalSection
+EndGlobal
