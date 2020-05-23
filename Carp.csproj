@@ -5,14 +5,6 @@
 		<RazorLangVersion>3.0</RazorLangVersion>
 		<BlazorWebAssemblyEnableLinking Condition="'$(Configuration)'!='Release'">false</BlazorWebAssemblyEnableLinking>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<Content Remove="compilerconfig.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="compilerconfig.json" />
-	</ItemGroup>
 	
 	<ItemGroup>
 		<!-- extends watching group to include *.razor files -->
@@ -20,7 +12,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="BuildWebCompiler" Version="1.12.405" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="3.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Build" Version="3.2.0" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="3.2.0" PrivateAssets="all" />
