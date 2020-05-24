@@ -1,25 +1,41 @@
 ﻿@page "/"
-@using System.Web;
+@using System.Web
+@using Carp.Parsers;
+@inject IAnalysisService _analysis;
+@inject HttpClient client;
 
 <h1>First Program Parse</h1>
 
-@((MarkupString)Program)
+<pre>@Program</pre>
 
 
-<p>@Name</p>
-<button @onclick="printFunctionName">Give Me First Method Name</button>
+@if (_programStructure != null)
+{
+    @foreach (var nameSpace in _programStructure?.Namespaces)
+    {
+        <p>Namespace: @nameSpace.Name</p>
+
+        foreach (var classDef in nameSpace?.Classes)
+        {
+            <p>Class: @classDef.Name</p>
+
+            foreach (var methodDef in classDef?.Methods)
+            {
+                <p>Method: @methodDef.Name</p>
+            }
+        }
+    }
+}
 
 
 @code {
+    public string Program { get; set; }
+    public ProgramStructure _programStructure { get; set; }
 
-    public string Program = $"<pre>{HttpUtility.HtmlEncode(Analysis.programText)}</pre>";
-
-    public string Name { get; set; }
-
-    private void printFunctionName()
+    protected override async Task OnInitializedAsync()
     {
-        Name = Analysis.FirstFunctionName();
+        _programStructure = await _analysis.AnalyzeStructureAsync();
+        Program = _analysis.ProgramText;
     }
-
 
 }

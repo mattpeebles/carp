@@ -1,15 +1,14 @@
-using System;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Text;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
 namespace Carp
 {
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
+    using Carp.Parsers;
+    using NetCore.AutoRegisterDi;
+    using System.Reflection;
+
     public class Program
     {
         public static async Task Main(string[] args)
@@ -18,6 +17,12 @@ namespace Carp
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+            //auto register services
+            builder.Services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetAssembly(typeof(Program)))
+            .Where(c => c.Name.EndsWith("Service"))
+            .AsPublicImplementedInterfaces();
+
 
             await builder.Build().RunAsync();
         }
