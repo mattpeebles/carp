@@ -42,7 +42,6 @@ namespace HelloWorld
         /// <returns></returns>
         public static string FirstFunctionName()
         {
-
             var options = new CSharpParseOptions(LanguageVersion.Default, DocumentationMode.Diagnose, SourceCodeKind.Regular);
 
             var tree = CSharpSyntaxTree.ParseText(programText, options);
@@ -51,6 +50,7 @@ namespace HelloWorld
             var namespaceDeclaration = root.Members.FirstOrDefault(_ => _.Kind() == SyntaxKind.NamespaceDeclaration) as NamespaceDeclarationSyntax;
             var classDefinition = namespaceDeclaration.Members.FirstOrDefault(_ => _.Kind() == SyntaxKind.ClassDeclaration) as ClassDeclarationSyntax;
             var methodDefinition = classDefinition.Members.FirstOrDefault(_ => _.Kind() == SyntaxKind.MethodDeclaration) as MethodDeclarationSyntax;
+
             return methodDefinition.Identifier.Value as string;
         }
     }
