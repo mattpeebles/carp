@@ -18,12 +18,12 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore .\src\Carp.csproj
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build .\src\Carp.csproj --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
-    - name: dotnet publish
+      run: dotnet test .\src\Carp.csproj --no-restore --verbosity normal
+    - name: dotnet publish .\src\Carp.csproj
       run: |
         dotnet publish -c Release -o carpdoc 
     - name: 'Run Azure webapp deploy action using publish profile credentials'
