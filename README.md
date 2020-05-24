@@ -1,9 +1,9 @@
 # carp
 automatic document generation for c#
 
-![.NET Core](https://github.com/mattpeebles/carp/workflows/.NET%20Core/badge.svg?branch=master)
+![Deploy](https://github.com/mattpeebles/carp/workflows/Deploy/badge.svg?branch=master)
 
-## Contributing
+## contributing
 Install dotnet globally
 
 ``dotnet watch --project ./src/Carp.csproj run``
