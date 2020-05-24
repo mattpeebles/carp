@@ -43,7 +43,6 @@ namespace HelloWorld
         public static string FirstFunctionName()
         {
             var options = new CSharpParseOptions(LanguageVersion.Default, DocumentationMode.Diagnose, SourceCodeKind.Regular);
-
             var tree = CSharpSyntaxTree.ParseText(programText, options);
             var root = tree.GetCompilationUnitRoot();
 
