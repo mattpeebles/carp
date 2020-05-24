@@ -23,12 +23,12 @@ jobs:
       run: dotnet build .\src\Carp.csproj --configuration Release --no-restore
     - name: Test
       run: dotnet test .\src\Carp.csproj --no-restore --verbosity normal
-    - name: dotnet publish .\src\Carp.csproj
+    - name: Publish
       run: |
-        dotnet publish -c Release -o carpdoc 
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
+        dotnet publish .\src\Carp.csproj -c Release -o carpdoc 
+    - name: 'Azure Deploy'
       uses: azure/webapps-deploy@v1
       with: 
         app-name: carpdoc # Replace with your app name
         publish-profile: ${{ secrets.publish_profile }} # Define secret variable in repository settings as per action documentation
-        package: './carpdoc' 
+        package: './carpdoc'
