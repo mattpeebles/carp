@@ -1,9 +1,25 @@
 ﻿@page "/"
+@using System.Web;
 
-<h1>Hello, world!</h1>
+<h1>First Program Parse</h1>
 
-Welcome to your new app. Isn't this neat
+@((MarkupString)Program)
 
-<p class="less-test">Testing Less</p>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<p>@Name</p>
+<button @onclick="printFunctionName">Give Me First Method Name</button>
+
+
+@code {
+
+    public string Program = $"<pre>{HttpUtility.HtmlEncode(Analysis.programText)}</pre>";
+
+    public string Name { get; set; }
+
+    private void printFunctionName()
+    {
+        Name = Analysis.FirstFunctionName();
+    }
+
+
+}
