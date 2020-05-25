@@ -17,6 +17,7 @@ namespace Carp
         string ProgramText { get; }
 
         Task<ProgramStructure> AnalyzeStructureAsync();
+        Task<CompilationUnitSyntax> GetProgramRoot();
     }
 
     public class AnalysisService : IAnalysisService
@@ -31,28 +32,14 @@ namespace Carp
         private readonly IRosalynService _rosalyn;
         private readonly INamespaceParserService _namespaceParser;
         private readonly HttpClient _client;
-
-        //        private const string _program = @"using System;
-        //using System.Collections;
-        //using System.Linq;
-        //using System.Text;
-
-        //namespace HelloWorld
-        //{
-
-        //    /// <summary>
-        //    /// We're looking at this
-        //    /// </summary>
-        //    /// <param name=""args"">your arguments</param>
-        //    class Program
-        //    {
-        //        static void Main(string[] args)
-        //        {
-        //            Console.WriteLine(""Hello, World!"");
-        //        }
-        //    }
-        //}";
         public string ProgramText { get; set; }
+
+
+        public async Task<CompilationUnitSyntax> GetProgramRoot()
+        {
+            ProgramText = await _client.GetStringAsync("https://raw.githubusercontent.com/mattpeebles/carp/master/src/AnalysisService.cs");
+            return _rosalyn.ParseFile(ProgramText);
+        }
 
         /// <summary>
         /// yo 
@@ -61,9 +48,7 @@ namespace Carp
         /// <returns></returns>
         public async Task<ProgramStructure> AnalyzeStructureAsync()
         {
-            ProgramText = await _client.GetStringAsync("https://raw.githubusercontent.com/mattpeebles/carp/master/src/AnalysisService.cs");
-
-            var root = _rosalyn.ParseFile(ProgramText);
+            var root = await GetProgramRoot();
 
             var structure = new ProgramStructure()
             {

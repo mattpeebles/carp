@@ -5,13 +5,12 @@
 @using Newtonsoft.Json;
 @using Microsoft.CodeAnalysis.CSharp.Syntax;
 @using Carp.Services.Parsers;
-@using Carp.Components; 
 @inject IAnalysisService _analysis;
 @inject HttpClient client;
 
 
 <div class="sidebar">
-    <NavMenu Classes="@ClassNames" />
+    <NavMenu Classes="@ClassNames" Interfaces="@InterfaceNames"/>
 </div>
 
 <div class="main">
@@ -22,37 +21,72 @@
     <div class="content px-4">
 
         <h1>First Program Parse</h1>
-       <button @onclick="ToggleShowProgram">Show Source Code</button>
+        <button @onclick="ToggleShowProgram">Show Source Code</button>
         @if (showProgram)
         {
             <pre>@Program</pre>
         }
 
 
-        @foreach(var classInfo in Classes)
+        @foreach (var classInfo in Classes)
         {
-            <ClassCard ClassInfo="classInfo"/>
+            <ClassCard ClassInfo="classInfo" />
+        }
+
+        @foreach (var interfaceInfo in Interfaces)
+        {
+            <InterfaceCard InterfaceInfo="interfaceInfo" />
         }
     </div>
 </div>
 
 
 @code {
-    public IEnumerable<string> ClassNames { get; set; } = new List<string>();
-    public IEnumerable<ClassStructure> Classes { get; set; } = new List<ClassStructure>();
+    public List<string> ClassNames { get; set; } = new List<string>();
+    public List<ClassDeclarationSyntax> Classes { get; set; } = new List<ClassDeclarationSyntax>();
+
+    public List<string> InterfaceNames { get; set; } = new List<string>();
+    public List<InterfaceDeclarationSyntax> Interfaces { get; set; } = new List<InterfaceDeclarationSyntax>();
 
     public string Program { get; set; }
-    public ProgramStructure _programStructure { get; set; }
+
+    private CompilationUnitSyntax _programRoot { get; set; }
 
     private bool showProgram { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
-        _programStructure = await _analysis.AnalyzeStructureAsync();
+        _programRoot = await _analysis.GetProgramRoot();
         Program = _analysis.ProgramText;
 
-        Classes = _programStructure.Namespaces.Select(_ => _.Classes).SelectMany(list => list);
-        ClassNames = Classes.Select(_ => _.Name);
+        //let's collapse all of the namespaces in the code for now
+        foreach (var member in _programRoot
+                                        .Members
+                                        .Where(_ => _.Kind() == SyntaxKind.NamespaceDeclaration)
+                                        .SelectMany(x => (x as NamespaceDeclarationSyntax).Members))
+        {
+            switch (member.Kind())
+            {
+                case SyntaxKind.ClassDeclaration:
+                    if (member is ClassDeclarationSyntax classMember)
+                    {
+                        Classes.Add(classMember);
+                        ClassNames.Add(classMember.Identifier.ValueText);
+                    }
+
+                    break;
+                case SyntaxKind.InterfaceDeclaration:
+                    if(member is InterfaceDeclarationSyntax interfaceMember)
+                    {
+                        Interfaces.Add(interfaceMember);
+                        InterfaceNames.Add(interfaceMember.Identifier.ValueText);
+                    }
+                    break;
+            }
+
+
+        }
+
     }
 
     private void ToggleShowProgram()

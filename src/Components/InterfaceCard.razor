@@ -1,16 +1,4 @@
-﻿<h3 id="@ClassInfo.Identifier.ValueText">@ClassInfo.Identifier.ValueText</h3>
-
-@if (Constructors?.Any() == true)
-{
-    <h5>Constructors</h5>
-
-    foreach (var construct in Constructors)
-    {
-        <span>@String.Join(" ", construct.Modifiers) </span><span>@construct.Identifier.ValueText</span><span>(</span><span>@String.Join(", ", construct.ParameterList?.Parameters)</span><span>)</span>
-    }
-
-    <br />
-}
+﻿<h3 id="@InterfaceInfo.Identifier.ValueText">@InterfaceInfo.Identifier.ValueText</h3>
 
 @if (Properties?.Any() == true || Fields?.Any() == true)
 {
@@ -46,7 +34,7 @@
 
     foreach (var method in Methods)
     {
-        <span>@String.Join(" ", method.Modifiers) </span><span>@method.Identifier.ValueText</span><span>(</span><span>@String.Join(", ", method.ParameterList?.Parameters)</span><span>)</span>
+        <span>@method.ReturnType </span><span>@method.Identifier.ValueText</span><span>(</span><span>@String.Join(", ", method.ParameterList?.Parameters)</span><span>)</span>
     }
 
     <br />
@@ -55,25 +43,18 @@
 
 @code {
     [Parameter]
-    public ClassDeclarationSyntax ClassInfo { get; set; }
+    public InterfaceDeclarationSyntax InterfaceInfo { get; set; }
 
-    public List<ConstructorDeclarationSyntax> Constructors { get; set; } = new List<ConstructorDeclarationSyntax>();
     public List<MethodDeclarationSyntax> Methods { get; set; } = new List<MethodDeclarationSyntax>();
     public List<PropertyDeclarationSyntax> Properties { get; set; } = new List<PropertyDeclarationSyntax>();
     public List<FieldDeclarationSyntax> Fields { get; set; } = new List<FieldDeclarationSyntax>();
 
     protected override void OnInitialized()
     {
-        foreach (var member in ClassInfo.Members)
+        foreach (var member in InterfaceInfo.Members)
         {
             switch (member.Kind())
             {
-                case SyntaxKind.ConstructorDeclaration:
-                    if (member is ConstructorDeclarationSyntax constructorMember)
-                    {
-                        Constructors.Add(constructorMember);
-                    }
-                    break;
                 case SyntaxKind.PropertyDeclaration:
                     if (member is PropertyDeclarationSyntax propertyMember)
                     {
