@@ -61,7 +61,7 @@ namespace Carp
         /// <returns></returns>
         public async Task<ProgramStructure> AnalyzeStructureAsync()
         {
-            ProgramText = await _client.GetStringAsync("https://raw.githubusercontent.com/mattpeebles/carp/master/src/Analysis.cs");
+            ProgramText = await _client.GetStringAsync("https://raw.githubusercontent.com/mattpeebles/carp/master/src/AnalysisService.cs");
 
             var root = _rosalyn.ParseFile(ProgramText);
 
