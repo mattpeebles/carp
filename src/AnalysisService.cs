@@ -16,8 +16,7 @@ namespace Carp
     {
         string ProgramText { get; }
 
-        Task<ProgramStructure> AnalyzeStructureAsync();
-        Task<CompilationUnitSyntax> GetProgramRoot();
+        Task<CompilationUnitSyntax> GetProgramRoot(string sourcePath);
     }
 
     public class AnalysisService : IAnalysisService
@@ -35,38 +34,10 @@ namespace Carp
         public string ProgramText { get; set; }
 
 
-        public async Task<CompilationUnitSyntax> GetProgramRoot()
+        public async Task<CompilationUnitSyntax> GetProgramRoot(string sourcePath)
         {
-            ProgramText = await _client.GetStringAsync("https://raw.githubusercontent.com/mattpeebles/carp/master/src/AnalysisService.cs");
+            ProgramText = await _client.GetStringAsync(sourcePath);
             return _rosalyn.ParseFile(ProgramText);
-        }
-
-        /// <summary>
-        /// yo 
-        /// <para>Hey</para> 
-        /// </summary>
-        /// <returns></returns>
-        public async Task<ProgramStructure> AnalyzeStructureAsync()
-        {
-            var root = await GetProgramRoot();
-
-            var structure = new ProgramStructure()
-            {
-                Namespaces = new List<NamespaceStructure>()
-            };
-
-            foreach (var member in root.Members)
-            {
-                switch (member.Kind())
-                {
-                    case SyntaxKind.NamespaceDeclaration:
-                        var nameSpaceInfo = _namespaceParser.Parse(member as NamespaceDeclarationSyntax);
-                        structure.Namespaces.Add(nameSpaceInfo);
-                        break;
-                }
-            }
-
-            return structure;
         }
     }
 

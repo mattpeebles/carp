@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+@page "/"
+
+<h3>Home</h3>
+
+
+<input placeholder="View documentation for:" @bind="Url" /><NavLink href="@GetRoute()">View</NavLink>
+
+    @code {
+
+        public string Url { get; set; }
+
+        public string GetRoute()
+        {
+            if (string.IsNullOrEmpty(Url)) return "/";
+
+            //blazor doesn't support greedy routing, so we have to do this ugly thing for now
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(Url);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+    }

@@ -18,9 +18,9 @@
                 @foreach (var className in Classes.ToList())
                 {
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="@{"#" + className}">
-                            <span class="oi oi-home" aria-hidden="true"></span> @className
-                        </NavLink>
+                        <a class="nav-link" href="/@EncodedPath/#@className">
+                            @className
+                        </a>
                     </li>
                 }
             </ul>
@@ -30,11 +30,11 @@
             <ul>
                 @foreach (var interfaceName in Interfaces.ToList())
                 {
-                    <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="@{"#" + interfaceName}">
-                            <span class="oi oi-home" aria-hidden="true"></span> @interfaceName
-                        </NavLink>
-                    </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link" href="@EncodedPath/#@interfaceName">
+                        @interfaceName
+                    </a>
+                </li>
                 }
             </ul>
         </li>
@@ -43,8 +43,11 @@
 
 @code {
     [Parameter]
+    public string EncodedPath { get; set; }
+
+    [Parameter]
     public IEnumerable<string> Classes { get; set; }
-   
+
     [Parameter]
     public IEnumerable<string> Interfaces { get; set; }
 
