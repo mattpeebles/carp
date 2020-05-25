@@ -13,19 +13,25 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
+            Classes
+            <ul>
+                @foreach (var className in Classes.ToList())
+                {
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="@{"#" + className}">
+                            <span class="oi oi-home" aria-hidden="true"></span> @className
+                        </NavLink>
+                    </li>
+                }
+            </ul>
         </li>
     </ul>
 </div>
 
 @code {
+    [Parameter]
+    public IEnumerable<string> Classes { get; set; }
+
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;

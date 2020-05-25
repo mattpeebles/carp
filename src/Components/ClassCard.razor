@@ -1,0 +1,10 @@
+﻿@using Microsoft.CodeAnalysis.CSharp.Syntax;
+@using Carp.Services.Parsers;
+
+<h3 id="@ClassInfo.Name">@ClassInfo.Name</h3>
+
+@code {
+    [Parameter]
+    public ClassStructure ClassInfo { get; set; }
+
+}

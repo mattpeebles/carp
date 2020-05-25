@@ -1,41 +1,63 @@
-﻿@page "/"
+﻿@inherits LayoutComponentBase
+@page "/"
 @using System.Web
 @using Carp.Parsers;
+@using Newtonsoft.Json;
+@using Microsoft.CodeAnalysis.CSharp.Syntax;
+@using Carp.Services.Parsers;
+@using Carp.Components; 
 @inject IAnalysisService _analysis;
 @inject HttpClient client;
 
-<h1>First Program Parse</h1>
 
-<pre>@Program</pre>
+<div class="sidebar">
+    <NavMenu Classes="@ClassNames" />
+</div>
 
+<div class="main">
+    <div class="top-row px-4">
+        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    </div>
 
-@if (_programStructure != null)
-{
-    @foreach (var nameSpace in _programStructure?.Namespaces)
-    {
-        <p>Namespace: @nameSpace.Name</p>
+    <div class="content px-4">
 
-        foreach (var classDef in nameSpace?.Classes)
+        <h1>First Program Parse</h1>
+       <button @onclick="ToggleShowProgram">Show Source Code</button>
+        @if (showProgram)
         {
-            <p>Class: @classDef.Name</p>
-
-            foreach (var methodDef in classDef?.Methods)
-            {
-                <p>Method: @methodDef.Name</p>
-            }
+            <pre>@Program</pre>
         }
-    }
-}
+
+
+        @foreach(var classInfo in Classes)
+        {
+            <ClassCard ClassInfo="classInfo"/>
+        }
+    </div>
+</div>
 
 
 @code {
+    public IEnumerable<string> ClassNames { get; set; } = new List<string>();
+    public IEnumerable<ClassStructure> Classes { get; set; } = new List<ClassStructure>();
+
     public string Program { get; set; }
     public ProgramStructure _programStructure { get; set; }
+
+    private bool showProgram { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
         _programStructure = await _analysis.AnalyzeStructureAsync();
         Program = _analysis.ProgramText;
+
+        Classes = _programStructure.Namespaces.Select(_ => _.Classes).SelectMany(list => list);
+        ClassNames = Classes.Select(_ => _.Name);
+    }
+
+    private void ToggleShowProgram()
+    {
+        showProgram = !showProgram;
     }
 
 }
