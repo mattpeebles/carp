@@ -21,7 +21,7 @@
 
     <div class="content px-4">
 
-        <h1>First Program Parse</h1>
+        <h1>@SourcePath.Split("/").Last()</h1>
         <button @onclick="ToggleShowProgram">Show Source Code</button>
         @if (showProgram)
         {
@@ -46,6 +46,9 @@
     [ParameterAttribute]
     public string EncodedPath { get; set; }
 
+    public string SourcePath { get; set; }
+
+    public string Url { get; set; }
 
     public List<string> ClassNames { get; set; } = new List<string>();
     public List<ClassDeclarationSyntax> Classes { get; set; } = new List<ClassDeclarationSyntax>();
@@ -62,9 +65,9 @@
     protected override async Task OnInitializedAsync()
     {
         var base64EncodedBytes = System.Convert.FromBase64String(EncodedPath);
-        var sourcePath = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        SourcePath = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
 
-        _programRoot = await _analysis.GetProgramRoot(sourcePath);
+        _programRoot = await _analysis.GetProgramRoot(SourcePath);
         Program = _analysis.ProgramText;
 
         //let's collapse all of the namespaces in the code for now

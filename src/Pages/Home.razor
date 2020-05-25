@@ -1,22 +1,34 @@
 ﻿@inherits LayoutComponentBase
 @page "/"
+@inject NavigationManager NavigationManager
 
-<h3>Home</h3>
+<div class="full-screen flex-column flex-fill" style="padding: 3rem">
+    <h1>carp</h1>
+
+    <div>
+        <label for="docUrl">View documentation for:</label><br />
+        <input name="docUrl" @bind="Url" placeholder="https://raw.githubusercontent.com/mattpeebles/carp/master/src/Services/Parsers/RosalynService.cs" style="width: 60%;"><button @onclick="ViewDocs">View</button>
+    </div>
+</div>
+
+@code {
+
+    public string Url { get; set; }
+
+    public string GetRoute()
+    {
+        var url = Url ?? "https://raw.githubusercontent.com/mattpeebles/carp/master/src/Services/Parsers/RosalynService.cs";
 
 
-<input placeholder="View documentation for:" @bind="Url" /><NavLink href="@GetRoute()">View</NavLink>
-
-    @code {
-
-        public string Url { get; set; }
-
-        public string GetRoute()
-        {
-            if (string.IsNullOrEmpty(Url)) return "/";
-
-            //blazor doesn't support greedy routing, so we have to do this ugly thing for now
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(Url);
-            return System.Convert.ToBase64String(plainTextBytes);
-        }
-
+        //blazor doesn't support greedy routing, so we have to do this ugly thing for now
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(url);
+        return System.Convert.ToBase64String(plainTextBytes);
     }
+
+    public void ViewDocs()
+    {
+        var url = GetRoute();
+        NavigationManager.NavigateTo(url);
+    }
+
+}
