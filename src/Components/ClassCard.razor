@@ -1,61 +1,91 @@
-﻿<h3 id="@ClassInfo.Identifier.ValueText">@ClassInfo.Identifier.ValueText</h3>
+﻿<p class="header" id="@ClassInfo.Identifier.ValueText">@ClassInfo.Identifier.ValueText</p>
 
-@if (Constructors?.Any() == true)
-{
-    <h5>Constructors</h5>
+<div class="card">
 
-    foreach (var construct in Constructors)
+    @if (Constructors?.Any() == true)
     {
-        <span>@String.Join(" ", construct.Modifiers) </span><span>@construct.Identifier.ValueText</span><span>(</span><span>@String.Join(", ", construct.ParameterList?.Parameters)</span><span>)</span>
-    }
+        <span class="sub-header">Constructors</span>
 
-    <br />
-}
-
-@if (Properties?.Any() == true || Fields?.Any() == true)
-{
-    <h5>Properties</h5>
-
-    if (Properties?.Any() == true)
-    {
-        foreach (var property in Properties)
+        foreach (var construct in Constructors)
         {
-            <div>
-                <span>@String.Join(" ", property.Modifiers) </span><span>@(property.Type) </span><span>@property.Identifier.ValueText</span><span></span>
+            <div class="card alt">
+                <span class="keyword">@String.Join(" ", construct.Modifiers) </span>
+                <span class="emphasize">@construct.Identifier.ValueText</span>
+                <span>(</span>
+                <span>
+                   @((MarkupString)String.Join(", ", construct.ParameterList
+                                                                ?.Parameters
+                                                                .Select(param => $"<span class=\"{GetTypeClass(param.Type.ToString())}\">{param.Type.ToString()} </span>{param.Identifier.ValueText}")))
+                </span>                <span>)</span>
             </div>
         }
+
+        <br />
     }
 
-    if (Fields?.Any() == true)
+    @if (Properties?.Any() == true || Fields?.Any() == true)
     {
-        foreach (var field in Fields)
+        <span class="sub-header">Properties</span>
+
+        if (Properties?.Any() == true)
         {
-            <div>
-                <span>@String.Join(" ", field.Modifiers) </span><span>@(String.Join(" ", field.AttributeLists))</span><span>@field.Declaration</span><span></span>
+            foreach (var property in Properties)
+            {
+                <div class="card alt">
+                    <span class="keyword">@String.Join(" ", property.Modifiers) </span>
+                    <span class="@GetTypeClass(property.Type.ToString())">@(property.Type) </span>
+                    <span class="emphasize">@property.Identifier.ValueText</span>
+                    <span></span>
+                </div>
+            }
+        }
+
+        if (Fields?.Any() == true)
+        {
+            foreach (var field in Fields)
+            {
+                <div class="card alt">
+                    <span class="keyword">@String.Join(" ", field.Modifiers) </span><span class="@GetTypeClass(field.Declaration.Type.ToString())">@field.Declaration.Type </span><span class="emphasize">@(field.Declaration.Variables.FirstOrDefault())</span><span></span>
+                </div>
+            }
+        }
+
+        <br />
+    }
+
+
+    @if (Methods?.Any() == true)
+    {
+        <span class="sub-header">Methods</span>
+
+        foreach (var method in Methods)
+        {
+            <div class="card alt">
+                <span class="keyword">@String.Join(" ", method.Modifiers) </span>
+                <span class="@GetTypeClass(method.ReturnType.ToString())">@method.ReturnType </span>
+                <span class="emphasize">@method.Identifier.ValueText</span>
+                <span>(</span>
+                <span>
+                    @((MarkupString)String.Join(", ", method.ParameterList
+                                                                ?.Parameters
+                                                                .Select(param => $"<span class=\"{GetTypeClass(param.Type.ToString())}\">{param.Type.ToString()} </span>{param.Identifier.ValueText}")))
+                </span>
+                <span>)</span>
             </div>
         }
+
+        <br />
     }
 
-    <br />
-}
 
-
-@if (Methods?.Any() == true)
-{
-    <h5>Methods</h5>
-
-    foreach (var method in Methods)
-    {
-        <span>@String.Join(" ", method.Modifiers) </span><span>@method.Identifier.ValueText</span><span>(</span><span>@String.Join(", ", method.ParameterList?.Parameters)</span><span>)</span>
-    }
-
-    <br />
-}
-
+</div>
 
 @code {
     [Parameter]
     public ClassDeclarationSyntax ClassInfo { get; set; }
+
+    [Parameter]
+    public HashSet<string> ClassSet { get; set; }
 
     public List<ConstructorDeclarationSyntax> Constructors { get; set; } = new List<ConstructorDeclarationSyntax>();
     public List<MethodDeclarationSyntax> Methods { get; set; } = new List<MethodDeclarationSyntax>();
@@ -94,5 +124,11 @@
                     break;
             }
         }
+    }
+
+
+    private string GetTypeClass(string typeName)
+    {
+        return ClassSet?.Contains(typeName) == true ? "link" : "understate";
     }
 }

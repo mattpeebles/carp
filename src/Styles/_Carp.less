@@ -1,0 +1,84 @@
+﻿@import "./_Card.less";
+@import "./_themes.less";
+
+
+
+body
+{
+    background-color: @background-color;
+}
+
+
+/////////////////
+/// Base
+////////////////
+.keyword
+{
+    color: @keyword-color;
+}
+
+.type
+{
+    color: @keyword-color;
+}
+
+.header
+{
+    color: @header-color;
+    font-weight: 600;
+    font-size: 1.75rem;
+}
+
+.sub-header
+{
+    color: @header-color;
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
+.text
+{
+    color: @text-color;
+}
+
+.understate
+{
+    color: @understate-color;
+}
+
+.emphasize
+{
+    color: @emphasize;
+}
+
+.link
+{
+    color: @link-color;
+    cursor: pointer;
+
+    &:hover
+    {
+        text-decoration: underline;
+        color: lighten(@link-color, 10%);
+    }
+}
+
+/////////////////
+/// Helpers
+////////////////
+.full-screen
+{
+    height: 100vh;
+    width: 100vh;
+}
+
+.flex-column
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-fill
+{
+    flex-grow: 1;
+}

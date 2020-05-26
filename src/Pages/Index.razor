@@ -29,14 +29,22 @@
         }
 
 
-        @foreach (var classInfo in Classes)
+        @if (Classes?.Any() == true)
         {
-            <ClassCard ClassInfo="classInfo" />
+            <h3>Classes</h3>
+            @foreach (var classInfo in Classes)
+            {
+                <ClassCard ClassInfo="classInfo" ClassSet="ClassNames"/>
+            }
         }
 
-        @foreach (var interfaceInfo in Interfaces)
+        @if (Interfaces?.Any() == true)
         {
-            <InterfaceCard InterfaceInfo="interfaceInfo" />
+            <h3>Interfaces</h3>
+            @foreach (var interfaceInfo in Interfaces)
+            {
+                <InterfaceCard InterfaceInfo="interfaceInfo" />
+            }
         }
     </div>
 </div>
@@ -50,7 +58,7 @@
 
     public string Url { get; set; }
 
-    public List<string> ClassNames { get; set; } = new List<string>();
+    public HashSet<string> ClassNames { get; set; } = new HashSet<string>();
     public List<ClassDeclarationSyntax> Classes { get; set; } = new List<ClassDeclarationSyntax>();
 
     public List<string> InterfaceNames { get; set; } = new List<string>();

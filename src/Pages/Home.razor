@@ -7,7 +7,7 @@
 
     <div>
         <label for="docUrl">View documentation for:</label><br />
-        <input name="docUrl" @bind="Url" placeholder="https://raw.githubusercontent.com/mattpeebles/carp/master/src/Services/Parsers/RosalynService.cs" style="width: 60%;"><button @onclick="ViewDocs">View</button>
+        <input name="docUrl" @bind="Url" placeholder="@PlaceHolderUrl" style="width: 60%;"><button @onclick="ViewDocs">View</button>
     </div>
 </div>
 
@@ -15,9 +15,11 @@
 
     public string Url { get; set; }
 
+    public const string PlaceHolderUrl = "https://raw.githubusercontent.com/mattpeebles/carp/master/src/Services/Parsers/RosalynService.cs";
+
     public string GetRoute()
     {
-        var url = Url ?? "https://raw.githubusercontent.com/mattpeebles/carp/master/src/Services/Parsers/RosalynService.cs";
+        var url = Url ?? PlaceHolderUrl;
 
 
         //blazor doesn't support greedy routing, so we have to do this ugly thing for now
