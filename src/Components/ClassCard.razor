@@ -16,7 +16,8 @@
                    @((MarkupString)String.Join(", ", construct.ParameterList
                                                                 ?.Parameters
                                                                 .Select(param => $"<span class=\"{GetTypeClass(param.Type.ToString())}\">{param.Type.ToString()} </span>{param.Identifier.ValueText}")))
-                </span>                <span>)</span>
+                </span>                
+                <span>)</span>
             </div>
         }
 
