@@ -9,17 +9,14 @@
 @inject IAnalysisService _analysis;
 @inject HttpClient client;
 
-
 <div class="sidebar">
     <NavMenu EncodedPath="@EncodedPath" Classes="@ClassNames" Interfaces="@InterfaceNames" />
 </div>
 
 <div class="main">
-    <div class="top-row px-4">
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-    </div>
+    <div style="height: 5rem; background-color: white; border-bottom: 1px solid #EDF2F6"/>
 
-    <div class="content px-4">
+    <div style="max-width: 56rem;">
 
         <h1>@SourcePath.Split("/").Last()</h1>
         <button @onclick="ToggleShowProgram">Show Source Code</button>
@@ -34,7 +31,7 @@
             <h3>Classes</h3>
             @foreach (var classInfo in Classes)
             {
-                <ClassCard ClassInfo="classInfo" ClassSet="ClassNames"/>
+                <ClassCard ClassInfo="classInfo" ClassSet="ClassNames" />
             }
         }
 

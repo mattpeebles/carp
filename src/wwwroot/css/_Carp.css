@@ -9,6 +9,13 @@
   background-color: #f7fafc;
   box-shadow: none;
 }
+.sidebar .top-row {
+  height: 5rem;
+  background-color: #fff;
+}
+.sidebar .nav {
+  padding: 0.5rem;
+}
 body {
   background-color: #f7fafc;
 }
@@ -44,6 +51,9 @@ body {
 .link:hover {
   text-decoration: underline;
   color: #5a9bd8;
+}
+.sidebar {
+  background: #fff;
 }
 .full-screen {
   height: 100vh;
