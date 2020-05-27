@@ -1,3 +1,5 @@
+@inject ICommentParserService _commentParser;
+
 <div class="card alt">
     <span class="keyword">@String.Join(" ", Method.Modifiers) </span>
     <span class="@GetTypeClass(Method.ReturnType.ToString())">@Method.ReturnType </span>
@@ -12,9 +14,9 @@
 
     @if(Method.HasStructuredTrivia)
     {
-        <div>
+        <pre>
             @CommentXml
-        </div>
+        </pre>
     }
 </div>
 
@@ -34,12 +36,6 @@
 
     protected override void OnInitialized()
     {
-        var trivia = Method.GetLeadingTrivia().FirstOrDefault(t => t.Kind() == SyntaxKind.SingleLineDocumentationCommentTrivia);
-
-        if (trivia != default)
-        {
-            CommentXml = trivia.ToFullString();
-        }
-
+        CommentXml = _commentParser.GetSingleLineComment(Method);
     }
 }

@@ -21,15 +21,13 @@ namespace Carp
 
     public class AnalysisService : IAnalysisService
     {
-        public AnalysisService(IRosalynService rosalyn, INamespaceParserService namespaceParser, HttpClient client)
+        public AnalysisService(IRosalynService rosalyn, HttpClient client)
         {
             _rosalyn = rosalyn;
-            _namespaceParser = namespaceParser;
             _client = client;
         }
 
         private readonly IRosalynService _rosalyn;
-        private readonly INamespaceParserService _namespaceParser;
         private readonly HttpClient _client;
         public string ProgramText { get; set; }
 
@@ -39,10 +37,5 @@ namespace Carp
             ProgramText = await _client.GetStringAsync(sourcePath);
             return _rosalyn.ParseFile(ProgramText);
         }
-    }
-
-    public class ProgramStructure
-    {
-        public List<NamespaceStructure> Namespaces { get; set; }
     }
 }

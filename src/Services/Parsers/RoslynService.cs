@@ -18,9 +18,9 @@ namespace Carp.Parsers
         CompilationUnitSyntax ParseFile(byte[] file);
     }
 
-    public class RosalynService : IRosalynService
+    public class RoslynService : IRosalynService
     {
-        public RosalynService()
+        public RoslynService()
         {
 
         }
