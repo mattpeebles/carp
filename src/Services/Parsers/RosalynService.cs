@@ -25,6 +25,11 @@ namespace Carp.Parsers
 
         }
 
+        /// <summary>
+        /// Gets tree root for a particular file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public CompilationUnitSyntax ParseFile(string file)
         {
             var options = new CSharpParseOptions(LanguageVersion.Default, DocumentationMode.Diagnose, SourceCodeKind.Regular);

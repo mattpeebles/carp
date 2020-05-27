@@ -34,15 +34,11 @@
 
     protected override void OnInitialized()
     {
-        var trivia = Method.GetLeadingTrivia().FirstOrDefault(t => t.Kind() == SyntaxKind.MultiLineDocumentationCommentTrivia);
+        var trivia = Method.GetLeadingTrivia().FirstOrDefault(t => t.Kind() == SyntaxKind.SingleLineDocumentationCommentTrivia);
 
         if (trivia != default)
         {
-            CommentXml = Method.GetLeadingTrivia()
-                                .Select(i => i.GetStructure())
-                                .OfType<DocumentationCommentTriviaSyntax>()
-                                .FirstOrDefault()
-                                .ToFullString();
+            CommentXml = trivia.ToFullString();
         }
 
     }
