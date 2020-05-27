@@ -1,0 +1,49 @@
+<div class="card alt">
+    <span class="keyword">@String.Join(" ", Method.Modifiers) </span>
+    <span class="@GetTypeClass(Method.ReturnType.ToString())">@Method.ReturnType </span>
+    <span class="emphasize">@Method.Identifier.ValueText</span>
+    <span>(</span>
+    <span>
+        @((MarkupString)String.Join(", ", Method.ParameterList
+                                                    ?.Parameters
+                                                    .Select(param => $"<span class=\"{GetTypeClass(param.Type.ToString())}\">{param.Type.ToString()} </span>{param.Identifier.ValueText}")))
+    </span>
+    <span>)</span>
+
+    @if(Method.HasStructuredTrivia)
+    {
+        <div>
+            @CommentXml
+        </div>
+    }
+</div>
+
+@code{
+    [Parameter]
+    public MethodDeclarationSyntax Method { get; set; }
+
+    [Parameter]
+    public HashSet<string> ClassSet { get; set; }
+
+    private string CommentXml { get; set; }
+
+    private string GetTypeClass(string typeName)
+    {
+        return ClassSet?.Contains(typeName) == true ? "link" : "understate";
+    }
+
+    protected override void OnInitialized()
+    {
+        var trivia = Method.GetLeadingTrivia().FirstOrDefault(t => t.Kind() == SyntaxKind.MultiLineDocumentationCommentTrivia);
+
+        if (trivia != default)
+        {
+            CommentXml = Method.GetLeadingTrivia()
+                                .Select(i => i.GetStructure())
+                                .OfType<DocumentationCommentTriviaSyntax>()
+                                .FirstOrDefault()
+                                .ToFullString();
+        }
+
+    }
+}
