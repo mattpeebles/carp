@@ -1,11 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @page "/{EncodedPath}"
 
-@using System.Web
-@using Carp.Parsers;
-@using Newtonsoft.Json;
-@using Microsoft.CodeAnalysis.CSharp.Syntax;
-@using Carp.Services.Parsers;
 @inject IAnalysisService _analysis;
 @inject HttpClient client;
 

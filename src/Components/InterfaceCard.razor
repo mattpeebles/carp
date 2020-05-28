@@ -37,18 +37,7 @@
 
         foreach (var method in Methods)
         {
-            <div class="card alt">
-                <span class="keyword">@String.Join(" ", method.Modifiers) </span>
-                <span class="@GetTypeClass(method.ReturnType.ToString())">@method.ReturnType </span>
-                <span class="emphasize">@method.Identifier.ValueText</span>
-                <span>(</span>
-                <span>
-                    @((MarkupString)String.Join(", ", method.ParameterList
-                                                                ?.Parameters
-                                                                .Select(param => $"<span class=\"{GetTypeClass(param.Type.ToString())}\">{param.Type.ToString()} </span>{param.Identifier.ValueText}")))
-                </span>
-                <span>)</span>
-            </div>
+           <MethodCard ClassSet="ClassSet" Method="method" />
         }
 
     }

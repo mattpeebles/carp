@@ -25,6 +25,9 @@
 .sidebar .nav {
   padding: 0.5rem;
 }
+.comment {
+  font-size: 0.875rem;
+}
 body {
   background-color: #f7fafc;
 }

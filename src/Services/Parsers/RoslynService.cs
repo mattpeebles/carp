@@ -26,7 +26,7 @@ namespace Carp.Parsers
         }
 
         /// <summary>
-        /// Gets tree root for a particular file
+        /// Gets tree root for a particular file <see cref="IRosalynService"/> <see langword="Int32"/>
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>

@@ -12,11 +12,9 @@
     </span>
     <span>)</span>
 
-    @if(Method.HasStructuredTrivia)
+    @if (Method.HasStructuredTrivia && Comment != default)
     {
-        <pre>
-            @CommentXml
-        </pre>
+        <CommentCard Comment="Comment" />
     }
 </div>
 
@@ -27,7 +25,7 @@
     [Parameter]
     public HashSet<string> ClassSet { get; set; }
 
-    private string CommentXml { get; set; }
+    private DocumentationComment Comment { get; set; }
 
     private string GetTypeClass(string typeName)
     {
@@ -36,6 +34,6 @@
 
     protected override void OnInitialized()
     {
-        CommentXml = _commentParser.GetSingleLineComment(Method);
+        Comment = _commentParser.GetSingleLineComment(Method);
     }
 }

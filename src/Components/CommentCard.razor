@@ -1,0 +1,17 @@
+﻿<div class="comment">
+	<div class="comment-summary">
+		<span>@Comment.Summary</span>
+	</div>
+	<div>
+		@foreach (var paramInfo in Comment?.Params)
+		{
+			<span>param: </span><b>@paramInfo.ArgumentName</b> <em>@paramInfo.ArgumentComment</em>
+		}
+	</div>
+</div>
+
+@code
+{
+	[Parameter]
+	public DocumentationComment Comment { get; set; }
+}
