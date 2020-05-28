@@ -1,4 +1,6 @@
-﻿<p class="header" id="@ClassInfo.Identifier.ValueText">@ClassInfo.Identifier.ValueText</p>
+﻿@inherits BaseCard
+
+<p class="header" id="@ClassInfo.Identifier.ValueText">@ClassInfo.Identifier.ValueText</p>
 
 <div class="card">
 
@@ -72,9 +74,6 @@
     [Parameter]
     public ClassDeclarationSyntax ClassInfo { get; set; }
 
-    [Parameter]
-    public HashSet<string> ClassSet { get; set; }
-
     public List<ConstructorDeclarationSyntax> Constructors { get; set; } = new List<ConstructorDeclarationSyntax>();
     public List<MethodDeclarationSyntax> Methods { get; set; } = new List<MethodDeclarationSyntax>();
     public List<PropertyDeclarationSyntax> Properties { get; set; } = new List<PropertyDeclarationSyntax>();
@@ -112,11 +111,5 @@
                     break;
             }
         }
-    }
-
-
-    private string GetTypeClass(string typeName)
-    {
-        return ClassSet?.Contains(typeName) == true ? "link" : "understate";
     }
 }

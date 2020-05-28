@@ -1,3 +1,4 @@
+@inherits BaseCard
 @inject ICommentParserService _commentParser;
 
 <div class="card alt">
@@ -22,15 +23,7 @@
     [Parameter]
     public MethodDeclarationSyntax Method { get; set; }
 
-    [Parameter]
-    public HashSet<string> ClassSet { get; set; }
-
     private DocumentationComment Comment { get; set; }
-
-    private string GetTypeClass(string typeName)
-    {
-        return ClassSet?.Contains(typeName) == true ? "link" : "understate";
-    }
 
     protected override void OnInitialized()
     {

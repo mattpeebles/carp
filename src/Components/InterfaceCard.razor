@@ -1,4 +1,6 @@
-﻿<p class="header" id="@InterfaceInfo.Identifier.ValueText">@InterfaceInfo.Identifier.ValueText</p>
+﻿@inherits BaseCard
+
+<p class="header" id="@InterfaceInfo.Identifier.ValueText">@InterfaceInfo.Identifier.ValueText</p>
 
 <div class="card">
 
@@ -49,9 +51,6 @@
     [Parameter]
     public InterfaceDeclarationSyntax InterfaceInfo { get; set; }
 
-    [Parameter]
-    public HashSet<string> ClassSet { get; set; }
-
     public List<MethodDeclarationSyntax> Methods { get; set; } = new List<MethodDeclarationSyntax>();
     public List<PropertyDeclarationSyntax> Properties { get; set; } = new List<PropertyDeclarationSyntax>();
     public List<FieldDeclarationSyntax> Fields { get; set; } = new List<FieldDeclarationSyntax>();
@@ -82,10 +81,5 @@
                     break;
             }
         }
-    }
-
-    private string GetTypeClass(string typeName)
-    {
-        return ClassSet?.Contains(typeName) == true ? "link" : "understate";
     }
 }
